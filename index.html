@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <title>Jumbo Veiligheidsrapporten Oefenen</title>
+  <style>
+    /* CSS kodları aynen korundu */
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #74ebd5, #ACB6E5);
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: all 0.3s ease;
+    }
+
+    body.dark-mode {
+      background: linear-gradient(to right, #2c3e50, #4ca1af);
+      color: #f0f0f0;
+    }
+
+    .card-container {
+      background: white;
+      padding: 40px;
+      border-radius: 25px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+      width: 650px;
+      max-width: 90%;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.5s ease-in-out;
+      animation: fadeIn 0.7s ease-in;
+    }
+
+    .dark-mode .card-container {
+      background: #2d3748;
+      color: #f0f0f0;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    h2 {
+      font-size: 22px;
+      color: #333;
+      margin-bottom: 20px;
+      min-height: 100px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1.5;
+    }
+
+    .dark-mode h2 {
+      color: #f0f0f0;
+    }
+
+    #translation, #testResult {
+      font-size: 18px;
+      color: #666;
+      margin: 20px 0;
+      min-height: 60px;
+      transition: opacity 0.4s ease;
+      line-height: 1.6;
+      padding: 10px;
+      border-radius: 10px;
+      background-color: #f8f9fa;
+    }
+
+    .dark-mode #translation,
+    .dark-mode #testResult {
+      background-color: #4a5568;
+      color: #f0f0f0;
+    }
+
+    .button-group {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+
+    button {
+      margin: 8px;
+      padding: 12px 25px;
+      font-size: 16px;
+      border: none;
+      border-radius: 12px;
+      background-color: #007bff;
+      color: white;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      min-width: 180px;
+    }
+
+    .dark-mode button {
+      background-color: #4a5568;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .dark-mode button:hover {
+      background-color: #2d3748;
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    #showBtn {
+      background-color: #28a745;
+    }
+
+    #showBtn:hover {
+      background-color: #218838;
+    }
+
+    #startTestBtn, #restartBtn, #testNextBtn {
+      background-color: #ffc107;
+      color: #212529;
+    }
+
+    #startTestBtn:hover, #restartBtn:hover, #testNextBtn:hover {
+      background-color: #e0a800;
+    }
+
+    #darkModeToggle {
+      position: absolute;
+      top: 50px;
+      right: 10px;
+      padding: 8px 15px;
+      min-width: auto;
+      background-color: #6c757d;
+    }
+
+    input[type="text"] {
+      padding: 12px;
+      font-size: 16px;
+      border-radius: 10px;
+      border: 2px solid #ddd;
+      width: 100%;
+      margin: 15px 0;
+      transition: border 0.3s ease;
+      background-color: white;
+      color: #333;
+    }
+
+    .dark-mode input[type="text"] {
+      background-color: #4a5568;
+      border-color: #718096;
+      color: #f0f0f0;
+    }
+
+    input[type="text"]:focus {
+      border-color: #007bff;
+      outline: none;
+    }
+
+    .end {
+      font-size: 20px;
+      color: green;
+      margin-top: 20px;
+      font-weight: bold;
+    }
+
+    .dark-mode .end {
+      color: #68d391;
+    }
+
+    .progress-container {
+      width: 100%;
+      height: 8px;
+      background-color: #e9ecef;
+      border-radius: 4px;
+      margin-bottom: 20px;
+      overflow: hidden;
+    }
+
+    .dark-mode .progress-container {
+      background-color: #4a5568;
+    }
+
+    .progress-bar {
+      height: 100%;
+      background-color: #007bff;
+      width: 0%;
+      transition: width 0.4s ease;
+    }
+
+    .card-counter {
+      color: #6c757d;
+      margin-bottom: 15px;
+      font-size: 14px;
+    }
+
+    .dark-mode .card-counter {
+      color: #a0aec0;
+    }
+
+    .correct {
+      color: #28a745;
+      background-color: rgba(40, 167, 69, 0.1);
+      border-left: 4px solid #28a745;
+    }
+
+    .dark-mode .correct {
+      color: #68d391;
+      background-color: rgba(104, 211, 145, 0.1);
+      border-left-color: #68d391;
+    }
+
+    .wrong {
+      color: #dc3545;
+      background-color: rgba(220, 53, 69, 0.1);
+      border-left: 4px solid #dc3545;
+    }
+
+    .dark-mode .wrong {
+      color: #fc8181;
+      background-color: rgba(252, 129, 129, 0.1);
+      border-left-color: #fc8181;
+    }
+
+    .hint {
+      font-size: 14px;
+      color: #6c757d;
+      margin-top: 5px;
+    }
+
+    .dark-mode .hint {
+      color: #a0aec0;
+    }
+
+    #testArea {
+      display: none;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .keyboard-shortcut {
+      font-size: 12px;
+      color: #6c757d;
+      margin-top: 5px;
+    }
+
+    .dark-mode .keyboard-shortcut {
+      color: #a0aec0;
+    }
+
+    .error-message {
+      color: #dc3545;
+      font-size: 14px;
+      margin-top: 5px;
+      display: none;
+    }
+
+    .dark-mode .error-message {
+      color: #fc8181;
+    }
+
+    .word-diff {
+      background-color: #ffcccc;
+      text-decoration: underline;
+      padding: 2px;
+      border-radius: 3px;
+    }
+
+    .dark-mode .word-diff {
+      background-color: #ff000033;
+    }
+  </style>
+</head>
+<body>
+
+<div class="card-container" id="card">
+  <button id="darkModeToggle" onclick="toggleDarkMode()">Donkere Modus</button>
+  <div class="progress-container">
+    <div class="progress-bar" id="progressBar"></div>
+  </div>
+  <div class="card-counter" id="cardCounter"></div>
+  
+  <h2 id="dutchText">Laden...</h2>
+  <div id="translation"></div>
+  
+  <div class="button-group">
+    <button id="nextBtn" onclick="nextCard()">Volgende Kaart <span class="keyboard-shortcut">(Spatie)</span></button>
+    <button id="startTestBtn" class="hidden" onclick="startTest()">Start Test <span class="keyboard-shortcut">(T)</span></button>
+    <button id="restartBtn" class="hidden" onclick="restartCards()">Opnieuw Beginnen <span class="keyboard-shortcut">(R)</span></button>
+  </div>
+  
+  <div id="endMessage" class="end"></div>
+
+  <div id="testArea">
+    <p>Schrijf de Nederlandse versie van deze zin:</p>
+    <h2 id="testQuestion"></h2>
+    <input type="text" id="userInput" placeholder="Typ hier de Nederlandse versie..." autocomplete="off">
+    <div class="error-message" id="errorMessage">Vul alstublieft uw antwoord in!</div>
+    <div class="hint" id="hintArea"></div>
+    <button onclick="checkAnswer()">Controleer <span class="keyboard-shortcut">(Enter)</span></button>
+    <button id="testNextBtn" class="hidden" onclick="nextTestCard()">Volgende Vraag <span class="keyboard-shortcut">(Spatie)</span></button>
+    <div id="testResult"></div>
+  </div>
+</div>
+
+<script>
+  const cards = [
+    {
+      dutch: "Hierbij rapporteer ik, [NAAM], beveiligingsmedewerker in dienst van Jumbo, het volgende:",
+      turkish: "Hierbij rapporteer ik, [NAAM], beveiligingsmedewerker in dienst van Jumbo, het volgende:",
+      hint: "Officiële formulering om een rapport te beginnen"
+    },
+    {
+      dutch: "Op [DATUM] bevond ik mij omstreeks [TIJD] op [LOCATIE], waar ik het volgende heb geconstateerd:",
+      turkish: "Op [DATUM] bevond ik mij omstreeks [TIJD] op [LOCATIE], waar ik het volgende heb geconstateerd:",
+      hint: "Informatie over tijd en locatie van het incident"
+    },
+    {
+      dutch: "Omstreeks [TIJD] hervatte ik mijn normale werkzaamheden.",
+      turkish: "Omstreeks [TIJD] hervatte ik mijn normale werkzaamheden.",
+      hint: "Terugkeer naar normale werkzaamheden"
+    },
+    {
+      dutch: "Van dit specifieke rapport heb ik een aantekening gemaakt in het dienstrapport van [TIJD].",
+      turkish: "Van dit specifieke rapport heb ik een aantekening gemaakt in het dienstrapport van [TIJD].",
+      hint: "Vermelding van rapportage in dienstrapport"
+    },
+    {
+      dutch: "Dit rapport is door mij gesloten en getekend op [DATUM] te [STAD].",
+      turkish: "Dit rapport is door mij gesloten en getekend op [DATUM] te [STAD].",
+      hint: "Afsluiting en ondertekening van het rapport"
+    }
+  ];
+
+  let currentIndex = 0;
+  let isTestMode = false;
+  let score = 0;
+  let waitingForNext = false;
+
+  // Dark mode toggle
+  function toggleDarkMode() {
+    document.body.classList.toggle('dark-mode');
+    const darkModeToggle = document.getElementById('darkModeToggle');
+    if (document.body.classList.contains('dark-mode')) {
+      darkModeToggle.textContent = 'Lichte Modus';
+    } else {
+      darkModeToggle.textContent = 'Donkere Modus';
+    }
+  }
+
+  // Normalize answers by replacing variables with placeholders
+  function normalizeAnswer(answer) {
+    return answer
+      .replace(/(\d{1,2}[:.]\d{2})/g, '[TIJD]') // Times like 16:15 or 16.15
+      .replace(/(\d{1,2}\s+[A-Za-z]+\s+\d{4})/g, '[DATUM]') // Dates like 18 Juni 2023
+      .replace(/(\d{1,2}\s+[A-Za-z]+)/g, '[DATUM]') // Dates like 18 Juni
+      .replace(/([A-Z][a-z]+\s+[A-Z][a-z]+)/g, '[NAAM]') // Names like Arda Ozturk
+      .replace(/([A-Z][a-z]+)/g, '[STAD]') // City names like Amsterdam
+      .replace(/De Pijp|Centrum|Noord|Zuid|Oost|West/g, '[LOCATIE]'); // Common locations
+  }
+
+  // Klavye kısayolları
+  document.addEventListener('keydown', function(event) {
+    if (event.target.tagName !== 'INPUT') {
+      if (event.key === ' ' && !isTestMode) {
+        event.preventDefault();
+        nextCard();
+      } else if (event.key.toLowerCase() === 't' && !document.getElementById('startTestBtn').classList.contains('hidden')) {
+        event.preventDefault();
+        startTest();
+      } else if (event.key.toLowerCase() === 'r' && !document.getElementById('restartBtn').classList.contains('hidden')) {
+        event.preventDefault();
+        restartCards();
+      } else if (event.key === ' ' && isTestMode && waitingForNext) {
+        event.preventDefault();
+        nextTestCard();
+      }
+    }
+    
+    if (event.key === 'Enter' && isTestMode && event.target.id === 'userInput') {
+      event.preventDefault();
+      checkAnswer();
+    }
+  });
+
+  function highlightDifferences(userAnswer, correctAnswer) {
+    const normalizedUser = normalizeAnswer(userAnswer);
+    const normalizedCorrect = normalizeAnswer(correctAnswer);
+    
+    const userWords = normalizedUser.toLowerCase().split(/\s+/);
+    const correctWords = normalizedCorrect.toLowerCase().split(/\s+/);
+    let result = correctAnswer;
+    
+    for (let i = 0; i < correctWords.length; i++) {
+      if (i >= userWords.length || userWords[i] !== correctWords[i]) {
+        const regex = new RegExp(`\\b${correctWords[i]}\\b`, 'gi');
+        result = result.replace(regex, match => `<span class="word-diff">${match}</span>`);
+      }
+    }
+    
+    return result;
+  }
+
+  function updateProgress() {
+    const progress = ((currentIndex + 1) / cards.length) * 100;
+    document.getElementById('progressBar').style.width = `${progress}%`;
+    document.getElementById('cardCounter').textContent = `Kaart ${currentIndex + 1}/${cards.length}`;
+  }
+
+  function loadCard() {
+    document.getElementById('dutchText').textContent = cards[currentIndex].dutch;
+    document.getElementById('translation').textContent = "";
+    document.getElementById('translation').className = "";
+    document.getElementById('endMessage').textContent = "";
+    updateProgress();
+  }
+
+  function nextCard() {
+    currentIndex++;
+    if (currentIndex < cards.length) {
+      loadCard();
+    } else {
+      endCardSession();
+    }
+  }
+
+  function endCardSession() {
+    document.getElementById('dutchText').textContent = "Alle kaarten voltooid!";
+    document.getElementById('translation').textContent = `Je hebt alle ${cards.length} kaarten succesvol doorlopen.`;
+    document.getElementById('nextBtn').classList.add('hidden');
+    document.getElementById('startTestBtn').classList.remove('hidden');
+    document.getElementById('restartBtn').classList.remove('hidden');
+    document.getElementById('progressBar').style.width = "100%";
+  }
+
+  function startTest() {
+    isTestMode = true;
+    currentIndex = 0;
+    score = 0;
+    waitingForNext = false;
+    document.getElementById('startTestBtn').classList.add('hidden');
+    document.getElementById('restartBtn').classList.add('hidden');
+    document.getElementById('testArea').style.display = "block";
+    document.getElementById('nextBtn').classList.add('hidden');
+    showTestCard();
+  }
+
+  function showTestCard() {
+    waitingForNext = false;
+    document.getElementById('testQuestion').textContent = cards[currentIndex].turkish;
+    document.getElementById('testResult').textContent = "";
+    document.getElementById('userInput').value = "";
+    document.getElementById('errorMessage').style.display = "none";
+    document.getElementById('hintArea').textContent = "Hint: " + cards[currentIndex].hint;
+    document.getElementById('userInput').disabled = false;
+    document.getElementById('testNextBtn').classList.add('hidden');
+    document.querySelector('#testArea button:not(#testNextBtn)').style.display = "inline-block";
+    document.getElementById('userInput').focus();
+    updateProgress();
+  }
+
+  function checkAnswer() {
+    const userAnswer = document.getElementById('userInput').value.trim();
+    const correctAnswer = cards[currentIndex].dutch.trim();
+    const resultDiv = document.getElementById('testResult');
+    const errorMessage = document.getElementById('errorMessage');
+
+    if (userAnswer === '') {
+      errorMessage.style.display = "block";
+      return;
+    } else {
+      errorMessage.style.display = "none";
+    }
+
+    const normalizedUser = normalizeAnswer(userAnswer);
+    const normalizedCorrect = normalizeAnswer(correctAnswer);
+
+    if (normalizedUser.toLowerCase() === normalizedCorrect.toLowerCase()) {
+      resultDiv.innerHTML = "Correct! Goed gedaan!";
+      resultDiv.className = "correct";
+      score++;
+      setTimeout(() => {
+        nextTestCard();
+      }, 1000);
+    } else {
+      const highlightedAnswer = highlightDifferences(userAnswer, correctAnswer);
+      resultDiv.innerHTML = `Fout! Correct antwoord: <span>${highlightedAnswer}</span>`;
+      resultDiv.className = "wrong";
+      waitingForNext = true;
+      document.getElementById('userInput').disabled = true;
+      document.querySelector('#testArea button:not(#testNextBtn)').style.display = "none";
+      document.getElementById('testNextBtn').classList.remove('hidden');
+      document.getElementById('testNextBtn').focus();
+    }
+  }
+
+  function nextTestCard() {
+    currentIndex++;
+    if (currentIndex < cards.length) {
+      showTestCard();
+    } else {
+      endTest();
+    }
+  }
+
+  function endTest() {
+    document.getElementById('testArea').style.display = "none";
+    const percentage = Math.round((score / cards.length) * 100);
+    document.getElementById('dutchText').textContent = "Test Voltooid!";
+    document.getElementById('translation').textContent = `Score: ${score}/${cards.length} (${percentage}%)`;
+    document.getElementById('endMessage').textContent = percentage >= 80 ? "Uitstekend werk!" : 
+                                                     percentage >= 50 ? "Goed gedaan!" : 
+                                                     "Meer oefenen is nodig!";
+    document.getElementById('restartBtn').classList.remove('hidden');
+  }
+
+  function restartCards() {
+    currentIndex = 0;
+    isTestMode = false;
+    waitingForNext = false;
+    document.getElementById('testArea').style.display = "none";
+    document.getElementById('startTestBtn').classList.add('hidden');
+    document.getElementById('restartBtn').classList.add('hidden');
+    document.getElementById('nextBtn').classList.remove('hidden');
+    document.getElementById('endMessage').textContent = "";
+    loadCard();
+  }
+
+  window.onload = function() {
+    loadCard();
+  };
+</script>
+
+</body>
+</html>
