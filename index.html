@@ -307,11 +307,10 @@
   <div id="endMessage" class="end"></div>
 
   <div id="testArea">
-    <p>Schrijf de Nederlandse versie van deze zin:</p>
     <h2 id="testQuestion"></h2>
+    <div class="hint" id="hintArea"></div>
     <input type="text" id="userInput" placeholder="Typ hier de Nederlandse versie..." autocomplete="off">
     <div class="error-message" id="errorMessage">Vul alstublieft uw antwoord in!</div>
-    <div class="hint" id="hintArea"></div>
     <button onclick="checkAnswer()">Controleer <span class="keyboard-shortcut">(Enter)</span></button>
     <button id="testNextBtn" class="hidden" onclick="nextTestCard()">Volgende Vraag <span class="keyboard-shortcut">(Spatie)</span></button>
     <div id="testResult"></div>
@@ -322,27 +321,22 @@
   const cards = [
     {
       dutch: "Hierbij rapporteer ik, [NAAM], beveiligingsmedewerker in dienst van Jumbo, het volgende:",
-      turkish: "Hierbij rapporteer ik, [NAAM], beveiligingsmedewerker in dienst van Jumbo, het volgende:",
       hint: "Officiële formulering om een rapport te beginnen"
     },
     {
       dutch: "Op [DATUM] bevond ik mij omstreeks [TIJD] op [LOCATIE], waar ik het volgende heb geconstateerd:",
-      turkish: "Op [DATUM] bevond ik mij omstreeks [TIJD] op [LOCATIE], waar ik het volgende heb geconstateerd:",
       hint: "Informatie over tijd en locatie van het incident"
     },
     {
       dutch: "Omstreeks [TIJD] hervatte ik mijn normale werkzaamheden.",
-      turkish: "Omstreeks [TIJD] hervatte ik mijn normale werkzaamheden.",
       hint: "Terugkeer naar normale werkzaamheden"
     },
     {
       dutch: "Van dit specifieke rapport heb ik een aantekening gemaakt in het dienstrapport van [TIJD].",
-      turkish: "Van dit specifieke rapport heb ik een aantekening gemaakt in het dienstrapport van [TIJD].",
       hint: "Vermelding van rapportage in dienstrapport"
     },
     {
       dutch: "Dit rapport is door mij gesloten en getekend op [DATUM] te [STAD].",
-      turkish: "Dit rapport is door mij gesloten en getekend op [DATUM] te [STAD].",
       hint: "Afsluiting en ondertekening van het rapport"
     }
   ];
@@ -457,12 +451,13 @@
     document.getElementById('restartBtn').classList.add('hidden');
     document.getElementById('testArea').style.display = "block";
     document.getElementById('nextBtn').classList.add('hidden');
+    document.getElementById('dutchText').textContent = "";
+    document.getElementById('translation').textContent = "";
     showTestCard();
   }
 
   function showTestCard() {
     waitingForNext = false;
-    document.getElementById('testQuestion').textContent = cards[currentIndex].turkish;
     document.getElementById('testResult').textContent = "";
     document.getElementById('userInput').value = "";
     document.getElementById('errorMessage').style.display = "none";
